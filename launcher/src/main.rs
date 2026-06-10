@@ -15,8 +15,8 @@ use sha2::Digest;
 
 /// Stable URL: always points at the assets of the latest GitHub release.
 const MANIFEST_URL: &str =
-    "https://github.com/Voxel-codder/VoxWorld/releases/latest/download/manifest.json";
-const HOMEPAGE_FALLBACK: &str = "https://voxel-codder.github.io/VoxWorld/";
+    "https://github.com/dogjung86-cloud/VoxWorld/releases/latest/download/manifest.json";
+const HOMEPAGE_FALLBACK: &str = "https://dogjung86-cloud.github.io/VoxWorld/";
 
 #[derive(Deserialize, Clone, Default)]
 struct Manifest {
