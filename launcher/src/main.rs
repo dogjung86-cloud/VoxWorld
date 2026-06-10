@@ -146,7 +146,7 @@ fn check_thread(shared: Arc<Mutex<Shared>>, ctx: eframe::egui::Context) {
                     Phase::Offline
                 } else {
                     Phase::Error(
-                        "업데이트 서버에 연결할 수 없습니다. 인터넷 연결을 확인해 주세요."
+                        "Could not reach the update server. Please check your internet connection."
                             .to_string(),
                     )
                 };
@@ -170,7 +170,7 @@ fn download_thread(shared: Arc<Mutex<Shared>>, ctx: eframe::egui::Context) {
         };
 
         if let Err(e) = std::fs::create_dir_all(&paths.root) {
-            return fail(&shared, &ctx, format!("폴더 생성 실패: {e}"));
+            return fail(&shared, &ctx, format!("Could not create folder: {e}"));
         }
 
         // Download with progress.
@@ -179,7 +179,7 @@ fn download_thread(shared: Arc<Mutex<Shared>>, ctx: eframe::egui::Context) {
             .call()
         {
             Ok(r) => r,
-            Err(e) => return fail(&shared, &ctx, format!("다운로드 실패: {e}")),
+            Err(e) => return fail(&shared, &ctx, format!("Download failed: {e}")),
         };
         let total = resp
             .header("Content-Length")
@@ -191,7 +191,7 @@ fn download_thread(shared: Arc<Mutex<Shared>>, ctx: eframe::egui::Context) {
         let mut reader = resp.into_reader();
         let mut file = match std::fs::File::create(paths.tmp_zip()) {
             Ok(f) => f,
-            Err(e) => return fail(&shared, &ctx, format!("임시 파일 생성 실패: {e}")),
+            Err(e) => return fail(&shared, &ctx, format!("Could not create temp file: {e}")),
         };
         let mut buf = [0u8; 128 * 1024];
         let mut done: u64 = 0;
@@ -200,7 +200,7 @@ fn download_thread(shared: Arc<Mutex<Shared>>, ctx: eframe::egui::Context) {
                 Ok(0) => break,
                 Ok(n) => {
                     if let Err(e) = file.write_all(&buf[..n]) {
-                        return fail(&shared, &ctx, format!("디스크 쓰기 실패: {e}"));
+                        return fail(&shared, &ctx, format!("Disk write failed: {e}"));
                     }
                     done += n as u64;
                     let mut s = shared.lock().unwrap();
@@ -208,7 +208,7 @@ fn download_thread(shared: Arc<Mutex<Shared>>, ctx: eframe::egui::Context) {
                     drop(s);
                     ctx.request_repaint_after(Duration::from_millis(100));
                 },
-                Err(e) => return fail(&shared, &ctx, format!("다운로드 중단: {e}")),
+                Err(e) => return fail(&shared, &ctx, format!("Download interrupted: {e}")),
             }
         }
         drop(file);
@@ -223,14 +223,14 @@ fn download_thread(shared: Arc<Mutex<Shared>>, ctx: eframe::egui::Context) {
             let mut hasher = sha2::Sha256::new();
             let mut f = match std::fs::File::open(paths.tmp_zip()) {
                 Ok(f) => f,
-                Err(e) => return fail(&shared, &ctx, format!("검증 실패: {e}")),
+                Err(e) => return fail(&shared, &ctx, format!("Verification failed: {e}")),
             };
             let mut buf = [0u8; 1024 * 1024];
             loop {
                 match f.read(&mut buf) {
                     Ok(0) => break,
                     Ok(n) => hasher.update(&buf[..n]),
-                    Err(e) => return fail(&shared, &ctx, format!("검증 실패: {e}")),
+                    Err(e) => return fail(&shared, &ctx, format!("Verification failed: {e}")),
                 }
             }
             let got = format!("{:x}", hasher.finalize());
@@ -239,7 +239,7 @@ fn download_thread(shared: Arc<Mutex<Shared>>, ctx: eframe::egui::Context) {
                 return fail(
                     &shared,
                     &ctx,
-                    "다운로드한 파일이 손상되었습니다. 다시 시도해 주세요.".to_string(),
+                    "The downloaded file is corrupted. Please try again.".to_string(),
                 );
             }
         }
@@ -251,14 +251,14 @@ fn download_thread(shared: Arc<Mutex<Shared>>, ctx: eframe::egui::Context) {
         let _ = std::fs::remove_dir_all(paths.client_new());
         let file = match std::fs::File::open(paths.tmp_zip()) {
             Ok(f) => f,
-            Err(e) => return fail(&shared, &ctx, format!("압축 해제 실패: {e}")),
+            Err(e) => return fail(&shared, &ctx, format!("Extraction failed: {e}")),
         };
         let mut archive = match zip::ZipArchive::new(file) {
             Ok(a) => a,
-            Err(e) => return fail(&shared, &ctx, format!("압축 파일이 올바르지 않습니다: {e}")),
+            Err(e) => return fail(&shared, &ctx, format!("Invalid archive: {e}")),
         };
         if let Err(e) = archive.extract(paths.client_new()) {
-            return fail(&shared, &ctx, format!("압축 해제 실패: {e}"));
+            return fail(&shared, &ctx, format!("Extraction failed: {e}"));
         }
 
         // The zip may contain the payload at its root or inside a single
@@ -277,7 +277,7 @@ fn download_thread(shared: Arc<Mutex<Shared>>, ctx: eframe::egui::Context) {
             return fail(
                 &shared,
                 &ctx,
-                "압축 파일 안에서 게임 실행 파일을 찾지 못했습니다.".to_string(),
+                "Could not find the game executable inside the archive.".to_string(),
             );
         }
 
@@ -287,20 +287,20 @@ fn download_thread(shared: Arc<Mutex<Shared>>, ctx: eframe::egui::Context) {
                 return fail(
                     &shared,
                     &ctx,
-                    format!("기존 설치 교체 실패 (게임이 실행 중인지 확인): {e}"),
+                    format!("Could not replace the existing install (is the game running?): {e}"),
                 );
             }
         }
         if let Err(e) = std::fs::rename(&payload, paths.client()) {
             // Try to roll back so the user keeps a working install.
             let _ = std::fs::rename(paths.client_old(), paths.client());
-            return fail(&shared, &ctx, format!("설치 실패: {e}"));
+            return fail(&shared, &ctx, format!("Install failed: {e}"));
         }
         let _ = std::fs::remove_dir_all(paths.client_old());
         let _ = std::fs::remove_dir_all(paths.client_new());
         let _ = std::fs::remove_file(paths.tmp_zip());
         if let Err(e) = std::fs::write(paths.version_file(), &manifest.version) {
-            return fail(&shared, &ctx, format!("버전 기록 실패: {e}"));
+            return fail(&shared, &ctx, format!("Could not record version: {e}"));
         }
 
         let mut s = shared.lock().unwrap();
@@ -327,29 +327,26 @@ fn launch_game(shared: &Arc<Mutex<Shared>>) -> Result<(), String> {
     if let Some(server) = server.filter(|s| !s.is_empty()) {
         cmd.arg("--server").arg(server);
     }
-    cmd.spawn().map_err(|e| format!("게임 실행 실패: {e}"))?;
+    cmd.spawn().map_err(|e| format!("Failed to start the game: {e}"))?;
     Ok(())
 }
 
 struct App {
     shared: Arc<Mutex<Shared>>,
-    korean: bool,
 }
 
 impl App {
     fn new(cc: &eframe::CreationContext<'_>) -> Self {
-        // Load a Korean-capable system font; fall back to English labels if
-        // unavailable (egui's bundled fonts have no Hangul glyphs).
-        let mut korean = false;
+        // Add a broad-coverage system font so non-Latin characters in
+        // manifest notes still render.
         for candidate in [
+            "C:\\Windows\\Fonts\\segoeui.ttf",
             "C:\\Windows\\Fonts\\malgun.ttf",
-            "C:\\Windows\\Fonts\\malgunsl.ttf",
-            "C:\\Windows\\Fonts\\NanumGothic.ttf",
         ] {
             if let Ok(bytes) = std::fs::read(candidate) {
                 let mut fonts = eframe::egui::FontDefinitions::default();
                 fonts.font_data.insert(
-                    "korean".to_owned(),
+                    "system".to_owned(),
                     eframe::egui::FontData::from_owned(bytes).into(),
                 );
                 for family in [
@@ -360,10 +357,9 @@ impl App {
                         .families
                         .entry(family)
                         .or_default()
-                        .insert(0, "korean".to_owned());
+                        .push("system".to_owned());
                 }
                 cc.egui_ctx.set_fonts(fonts);
-                korean = true;
                 break;
             }
         }
@@ -376,11 +372,7 @@ impl App {
             total: 0,
         }));
         check_thread(shared.clone(), cc.egui_ctx.clone());
-        Self { shared, korean }
-    }
-
-    fn t<'a>(&self, ko: &'a str, en: &'a str) -> &'a str {
-        if self.korean { ko } else { en }
+        Self { shared }
     }
 }
 
@@ -413,12 +405,9 @@ impl eframe::App for App {
                         .color(egui::Color32::from_rgb(120, 200, 255)),
                 );
                 ui.label(
-                    egui::RichText::new(self.t(
-                        "복셀 판타지 멀티플레이어 RPG",
-                        "A multiplayer voxel fantasy RPG",
-                    ))
-                    .size(13.0)
-                    .weak(),
+                    egui::RichText::new("A multiplayer voxel fantasy RPG")
+                        .size(13.0)
+                        .weak(),
                 );
             });
             ui.add_space(14.0);
@@ -427,27 +416,17 @@ impl eframe::App for App {
 
             match &manifest {
                 Some(m) => {
+                    ui.label(format!("Latest version: {}", m.version));
                     ui.label(format!(
-                        "{}: {}",
-                        self.t("최신 버전", "Latest version"),
-                        m.version
+                        "Installed version: {}",
+                        installed.as_deref().unwrap_or("none")
                     ));
-                    ui.label(format!(
-                        "{}: {}",
-                        self.t("설치된 버전", "Installed version"),
-                        installed.as_deref().unwrap_or(self.t("없음", "none"))
-                    ));
-                    ui.label(format!(
-                        "{}: {}",
-                        self.t("게임 서버", "Game server"),
-                        m.server_address
-                    ));
+                    ui.label(format!("Game server: {}", m.server_address));
                 },
                 None => {
                     ui.label(format!(
-                        "{}: {}",
-                        self.t("설치된 버전", "Installed version"),
-                        installed.as_deref().unwrap_or(self.t("없음", "none"))
+                        "Installed version: {}",
+                        installed.as_deref().unwrap_or("none")
                     ));
                 },
             }
@@ -458,7 +437,7 @@ impl eframe::App for App {
                 Phase::Checking => {
                     ui.horizontal(|ui| {
                         ui.spinner();
-                        ui.label(self.t("업데이트 확인 중...", "Checking for updates..."));
+                        ui.label("Checking for updates...");
                     });
                 },
                 Phase::Downloading => {
@@ -474,7 +453,7 @@ impl eframe::App for App {
                 Phase::Extracting => {
                     ui.horizontal(|ui| {
                         ui.spinner();
-                        ui.label(self.t("압축 푸는 중...", "Extracting..."));
+                        ui.label("Extracting...");
                     });
                     ctx.request_repaint_after(Duration::from_millis(150));
                 },
@@ -484,10 +463,7 @@ impl eframe::App for App {
                 Phase::Offline => {
                     ui.colored_label(
                         egui::Color32::from_rgb(255, 200, 120),
-                        self.t(
-                            "업데이트 확인 실패 — 설치된 버전으로 플레이할 수 있습니다.",
-                            "Update check failed — you can still play the installed version.",
-                        ),
+                        "Update check failed — you can still play the installed version.",
                     );
                 },
                 _ => {},
@@ -502,7 +478,7 @@ impl eframe::App for App {
                 };
                 match phase {
                     Phase::ReadyPlay | Phase::Offline => {
-                        if ui.add(button(self.t("게임 시작", "PLAY"))).clicked() {
+                        if ui.add(button("PLAY")).clicked() {
                             match launch_game(&self.shared) {
                                 Ok(()) => {
                                     ctx.send_viewport_cmd(egui::ViewportCommand::Close);
@@ -514,28 +490,25 @@ impl eframe::App for App {
                         }
                     },
                     Phase::NeedInstall => {
-                        if ui.add(button(self.t("설치하기", "INSTALL"))).clicked() {
+                        if ui.add(button("INSTALL")).clicked() {
                             self.shared.lock().unwrap().phase = Phase::Downloading;
                             download_thread(self.shared.clone(), ctx.clone());
                         }
                     },
                     Phase::NeedUpdate => {
-                        if ui.add(button(self.t("업데이트", "UPDATE"))).clicked() {
+                        if ui.add(button("UPDATE")).clicked() {
                             self.shared.lock().unwrap().phase = Phase::Downloading;
                             download_thread(self.shared.clone(), ctx.clone());
                         }
                     },
                     Phase::Error(_) => {
-                        if ui
-                            .add(button(self.t("다시 시도", "RETRY")))
-                            .clicked()
-                        {
+                        if ui.add(button("RETRY")).clicked() {
                             self.shared.lock().unwrap().phase = Phase::Checking;
                             check_thread(self.shared.clone(), ctx.clone());
                         }
                     },
                     _ => {
-                        ui.add_enabled(false, button(self.t("잠시만요...", "PLEASE WAIT...")));
+                        ui.add_enabled(false, button("PLEASE WAIT..."));
                     },
                 }
             });
@@ -546,12 +519,9 @@ impl eframe::App for App {
                     .as_ref()
                     .and_then(|m| m.homepage.clone())
                     .unwrap_or_else(|| HOMEPAGE_FALLBACK.to_string());
-                ui.hyperlink_to(self.t("공식 홈페이지", "Official website"), homepage);
+                ui.hyperlink_to("Official website", homepage);
                 if let Some(web) = manifest.as_ref().and_then(|m| m.web_play_url.clone()) {
-                    ui.hyperlink_to(
-                        self.t("브라우저에서 바로 플레이", "Play in browser"),
-                        web,
-                    );
+                    ui.hyperlink_to("Play in browser", web);
                 }
                 if let Some(notes) = manifest.as_ref().and_then(|m| m.notes.clone()) {
                     if !notes.is_empty() {
