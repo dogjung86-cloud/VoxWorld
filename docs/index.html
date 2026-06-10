@@ -1,18 +1,18 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Vox World — 복셀 판타지 멀티플레이어 RPG</title>
-<meta name="description" content="광활한 복셀 판타지 세계에서 친구들과 함께 탐험하고, 싸우고, 만들어가는 무료 오픈소스 멀티플레이어 RPG.">
+<title>Vox World — A Multiplayer Voxel Fantasy RPG</title>
+<meta name="description" content="Explore, fight, craft, and adventure together in a vast living voxel world. Free and open source.">
 <meta property="og:title" content="Vox World">
-<meta property="og:description" content="복셀 판타지 멀티플레이어 RPG — 지금 무료로 플레이하세요.">
+<meta property="og:description" content="A multiplayer voxel fantasy RPG — free to play.">
 <meta property="og:image" content="https://dogjung86-cloud.github.io/VoxWorld/img/hero.jpg">
 <meta property="og:type" content="website">
 <link rel="icon" href="favicon.ico">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Black+Han+Sans&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
 <style>
 :root {
   --bg: #0a0d13;
@@ -30,7 +30,7 @@ html { scroll-behavior: smooth; }
 body {
   background: var(--bg);
   color: var(--text);
-  font-family: "Noto Sans KR", system-ui, sans-serif;
+  font-family: "Inter", system-ui, sans-serif;
   line-height: 1.6;
 }
 a { color: var(--accent); text-decoration: none; }
@@ -49,8 +49,8 @@ nav {
   display: flex; align-items: center; gap: 28px;
 }
 .brand {
-  font-family: "Black Han Sans", "Noto Sans KR", sans-serif;
-  font-size: 20px; letter-spacing: 1px; color: #fff;
+  font-weight: 900;
+  font-size: 19px; letter-spacing: 1.5px; color: #fff;
 }
 .brand span { color: var(--accent); }
 .nav-links { display: flex; gap: 22px; margin-left: auto; font-size: 14.5px; }
@@ -59,40 +59,36 @@ nav {
 
 /* ── Hero ────────────────────────────── */
 header {
-  position: relative; min-height: 92vh;
+  position: relative; min-height: 94vh;
   display: flex; align-items: center; justify-content: center;
   text-align: center; overflow: hidden;
 }
 .hero-bg {
   position: absolute; inset: 0;
   background: url("img/hero.jpg") center / cover no-repeat;
-  image-rendering: auto;
   transform: scale(1.04);
 }
 .hero-shade {
   position: absolute; inset: 0;
   background:
-    linear-gradient(180deg, rgba(10,13,19,.55) 0%, rgba(10,13,19,.25) 40%, rgba(10,13,19,.92) 100%);
+    linear-gradient(180deg, rgba(10,13,19,.5) 0%, rgba(10,13,19,.25) 40%, rgba(10,13,19,.93) 100%);
 }
-.hero-content { position: relative; z-index: 1; padding: 120px 24px 80px; }
-.hero-content h1 {
-  font-family: "Black Han Sans", "Noto Sans KR", sans-serif;
-  font-size: clamp(52px, 9vw, 96px);
-  letter-spacing: 4px; color: #fff;
-  text-shadow: 0 4px 30px rgba(0,0,0,.65);
+.hero-content { position: relative; z-index: 1; padding: 110px 24px 70px; }
+.hero-logo {
+  width: min(420px, 78vw);
+  filter: drop-shadow(0 10px 34px rgba(0,0,0,.55));
 }
-.hero-content h1 span { color: var(--accent); }
 .tagline {
   font-size: clamp(16px, 2.4vw, 21px);
-  color: #e8f1fb; font-weight: 500;
-  text-shadow: 0 2px 14px rgba(0,0,0,.7);
-  margin-top: 6px;
+  color: #eaf3fd; font-weight: 500;
+  text-shadow: 0 2px 14px rgba(0,0,0,.75);
+  margin-top: 22px;
 }
-.hero-cta { margin-top: 36px; display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+.hero-cta { margin-top: 34px; display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
 .btn {
   display: inline-flex; align-items: center; gap: 10px;
-  padding: 16px 30px; border-radius: 10px;
-  font-size: 17px; font-weight: 700;
+  padding: 17px 34px; border-radius: 10px;
+  font-size: 17.5px; font-weight: 700;
   transition: transform .12s, box-shadow .12s, background .12s;
 }
 .btn:hover { transform: translateY(-2px); }
@@ -102,22 +98,16 @@ header {
   box-shadow: 0 6px 24px rgba(111, 195, 255, .35);
 }
 .btn-primary:hover { box-shadow: 0 10px 30px rgba(111, 195, 255, .5); }
-.btn-ghost {
-  background: rgba(13, 18, 26, .65);
-  border: 1px solid rgba(141, 160, 184, .45);
-  color: #fff;
-}
-.btn-ghost:hover { background: rgba(23, 31, 44, .85); border-color: var(--accent); }
-.hero-note { margin-top: 18px; font-size: 13.5px; color: #b9c7d8; text-shadow: 0 1px 8px rgba(0,0,0,.8); }
+.hero-note { margin-top: 18px; font-size: 13.5px; color: #bcc9da; text-shadow: 0 1px 8px rgba(0,0,0,.85); }
 
 /* ── Sections ────────────────────────── */
-section { padding: 88px 0; }
+section { padding: 92px 0; }
 .section-title {
-  font-family: "Black Han Sans", "Noto Sans KR", sans-serif;
-  font-size: clamp(28px, 4.5vw, 40px);
-  letter-spacing: 1.5px; color: #fff; text-align: center;
+  font-weight: 900;
+  font-size: clamp(28px, 4.5vw, 38px);
+  letter-spacing: .5px; color: #fff; text-align: center;
 }
-.section-sub { text-align: center; color: var(--muted); margin-top: 8px; font-size: 15.5px; }
+.section-sub { text-align: center; color: var(--muted); margin-top: 10px; font-size: 15.5px; max-width: 640px; margin-left: auto; margin-right: auto; }
 
 /* features */
 .features {
@@ -135,15 +125,21 @@ section { padding: 88px 0; }
 
 /* gallery */
 .gallery {
-  margin-top: 48px;
-  display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px;
+  margin-top: 52px;
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 14px;
 }
-.gallery img {
-  width: 100%; height: 220px; object-fit: cover;
-  border-radius: 12px; border: 1px solid var(--line);
-  transition: transform .2s;
+.shot { position: relative; border-radius: 12px; overflow: hidden; border: 1px solid var(--line); }
+.shot img {
+  width: 100%; height: 250px; object-fit: cover; display: block;
+  transition: transform .25s;
 }
-.gallery img:hover { transform: scale(1.025); }
+.shot:hover img { transform: scale(1.035); }
+.shot .cap {
+  position: absolute; left: 0; right: 0; bottom: 0;
+  padding: 26px 16px 12px;
+  background: linear-gradient(180deg, transparent, rgba(6,9,14,.85));
+  font-size: 13.5px; color: #dfe9f5; font-weight: 500;
+}
 
 /* steps */
 #start { background: var(--bg-soft); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
@@ -221,9 +217,9 @@ footer .links { display: flex; gap: 22px; justify-content: center; margin-bottom
   <div class="nav-inner">
     <div class="brand">VOX <span>WORLD</span></div>
     <div class="nav-links">
-      <a href="#features">게임 특징</a>
-      <a href="#start">시작 가이드</a>
-      <a href="#server">서버 정보</a>
+      <a href="#features">Features</a>
+      <a href="#start">Getting Started</a>
+      <a href="#server">Server</a>
       <a href="https://github.com/dogjung86-cloud/VoxWorld" target="_blank" rel="noopener">GitHub</a>
     </div>
   </div>
@@ -233,113 +229,110 @@ footer .links { display: flex; gap: 22px; justify-content: center; margin-bottom
   <div class="hero-bg"></div>
   <div class="hero-shade"></div>
   <div class="hero-content">
-    <h1>VOX <span>WORLD</span></h1>
-    <p class="tagline">광활한 복셀 판타지 세계에서 펼쳐지는 멀티플레이어 RPG</p>
+    <img class="hero-logo" src="img/logo.png" alt="Vox World">
+    <p class="tagline">A multiplayer voxel fantasy RPG set in a vast, living world.</p>
     <div class="hero-cta">
       <a class="btn btn-primary" href="https://github.com/dogjung86-cloud/VoxWorld/releases/latest/download/VoxWorldLauncher.exe">
-        ⬇ 런처 다운로드 <small style="font-weight:500">(Windows)</small>
-      </a>
-      <a class="btn btn-ghost" href="https://voxworld-production.up.railway.app" target="_blank" rel="noopener">
-        ▶ 브라우저에서 바로 플레이
+        ⬇ Download Launcher <small style="font-weight:500">(Windows)</small>
       </a>
     </div>
-    <p class="hero-note">무료 · 오픈소스 (GPLv3) · 회원가입 불필요</p>
+    <p class="hero-note">Free · Open Source (GPLv3) · No account required</p>
   </div>
 </header>
 
 <section id="features">
   <div class="wrap">
-    <h2 class="section-title">하나의 세계, 끝없는 모험</h2>
-    <p class="section-sub">절차적으로 생성된 거대한 세계가 플레이어를 기다립니다. 서버가 꺼지지 않는 한, 세계는 계속 살아 움직입니다.</p>
+    <h2 class="section-title">One world. Endless adventure.</h2>
+    <p class="section-sub">A procedurally generated continent that keeps living even while you're away — towns trade, NPCs travel, and the world goes on.</p>
     <div class="features">
       <div class="feature">
         <div class="icon">🗺️</div>
-        <h3>오픈월드 탐험</h3>
-        <p>설원, 사막, 정글, 동굴과 던전까지 — 광활한 대륙을 자유롭게 누비세요. 하늘을 나는 비행선도 있습니다.</p>
+        <h3>Open-World Exploration</h3>
+        <p>Snowfields, deserts, jungles, caves and dungeons — roam a vast continent, or catch an airship across it.</p>
       </div>
       <div class="feature">
         <div class="icon">⚔️</div>
-        <h3>실시간 전투</h3>
-        <p>검, 도끼, 활, 지팡이 등 무기마다 고유한 스킬과 콤보. 거대 보스와의 전투에 도전하세요.</p>
+        <h3>Real-Time Combat</h3>
+        <p>Swords, axes, bows, staves — every weapon has its own skills and combos. Take on towering bosses.</p>
       </div>
       <div class="feature">
         <div class="icon">⚒️</div>
-        <h3>제작과 교역</h3>
-        <p>재료를 모아 장비를 만들고, 마을 NPC와 거래하며 더 강한 장비로 성장하세요.</p>
+        <h3>Crafting &amp; Trade</h3>
+        <p>Gather materials, forge gear, and trade with town merchants to grow ever stronger.</p>
       </div>
       <div class="feature">
         <div class="icon">🤝</div>
-        <h3>협동 멀티플레이</h3>
-        <p>친구들과 같은 서버에서 함께 사냥하고, 채팅하고, 모험하세요. 모든 진행은 서버에 저장됩니다.</p>
+        <h3>Co-op Multiplayer</h3>
+        <p>Hunt, chat, and adventure with friends on the official server. All progress is saved server-side.</p>
       </div>
     </div>
     <div class="gallery">
-      <img src="img/world.jpg" alt="사바나의 요새와 호수" loading="lazy">
-      <img src="img/mountains.jpg" alt="설산과 침엽수림" loading="lazy">
-      <img src="img/winter.jpg" alt="겨울 마을의 사당" loading="lazy">
+      <div class="shot"><img src="img/combat.jpg" alt="Boss fight in a lava dungeon" loading="lazy"><div class="cap">Face down dungeon bosses</div></div>
+      <div class="shot"><img src="img/valley.jpg" alt="Snowy mountain valley" loading="lazy"><div class="cap">Cross snowbound mountain valleys</div></div>
+      <div class="shot"><img src="img/world.jpg" alt="Savannah fortress and lake" loading="lazy"><div class="cap">Discover fortresses on the savannah</div></div>
+      <div class="shot"><img src="img/night.jpg" alt="Winter lake at night" loading="lazy"><div class="cap">Wander starlit winter shores</div></div>
     </div>
   </div>
 </section>
 
 <section id="start">
   <div class="wrap">
-    <h2 class="section-title">3분 만에 시작하기</h2>
-    <p class="section-sub">런처가 설치부터 업데이트까지 전부 알아서 해줍니다.</p>
+    <h2 class="section-title">Playing in 3 minutes</h2>
+    <p class="section-sub">The launcher handles installation and updates for you.</p>
     <div class="steps">
       <div class="step">
         <div class="step-num">1</div>
-        <h3>런처 다운로드</h3>
-        <p><a href="https://github.com/dogjung86-cloud/VoxWorld/releases/latest/download/VoxWorldLauncher.exe">VoxWorldLauncher.exe</a>를 받아 실행하세요. 설치 과정 없이 바로 켜집니다.</p>
+        <h3>Download the launcher</h3>
+        <p>Grab <a href="https://github.com/dogjung86-cloud/VoxWorld/releases/latest/download/VoxWorldLauncher.exe">VoxWorldLauncher.exe</a> and run it. No installer, it just opens.</p>
       </div>
       <div class="step">
         <div class="step-num">2</div>
-        <h3>설치하기 클릭</h3>
-        <p>런처가 최신 버전의 게임을 자동으로 다운로드합니다. 이후 업데이트가 나와도 런처가 알아서 갱신해요.</p>
+        <h3>Click Install</h3>
+        <p>The launcher downloads the latest version of the game automatically — and keeps it up to date from then on.</p>
       </div>
       <div class="step">
         <div class="step-num">3</div>
-        <h3>게임 시작</h3>
-        <p>서버 주소가 자동으로 입력된 상태로 게임이 켜집니다. 닉네임을 정하고 캐릭터를 만들어 바로 접속하세요.</p>
+        <h3>Press Play</h3>
+        <p>The game starts with the official server address pre-filled. Pick a name, create your character, and jump in.</p>
       </div>
     </div>
     <div class="smartscreen">
-      💡 <b>Windows SmartScreen 경고가 뜨나요?</b> 코드 서명이 없는 오픈소스 빌드라 표시되는 안내입니다.
-      <b>추가 정보 → 실행</b>을 누르면 정상적으로 실행됩니다.
+      💡 <b>Windows SmartScreen warning?</b> That notice appears because this open-source build isn't code-signed.
+      Click <b>More info → Run anyway</b> and it will start normally.
     </div>
   </div>
 </section>
 
 <section id="server">
   <div class="wrap">
-    <h2 class="section-title">공식 서버</h2>
-    <p class="section-sub">런처를 쓰면 자동으로 접속됩니다. 클라이언트에 직접 입력할 때만 이 주소를 사용하세요.</p>
+    <h2 class="section-title">Official Server</h2>
+    <p class="section-sub">The launcher connects automatically. Use this address only if you type it into the client yourself.</p>
     <div class="server-card">
       <div class="addr-row">
         <code class="addr" id="server-addr">viaduct.proxy.rlwy.net:36453</code>
-        <button class="copy-btn" onclick="copyAddr()">주소 복사</button>
+        <button class="copy-btn" onclick="copyAddr()">Copy</button>
       </div>
       <p class="server-meta">
-        서버 위치: 아시아 (싱가포르) · 멀티플레이 전용 · 진행 상황은 서버에 자동 저장<br>
-        다운로드 없이 해보고 싶다면? <a href="https://voxworld-production.up.railway.app" target="_blank" rel="noopener">브라우저 체험판 바로 열기 →</a>
+        Server region: Asia (Singapore) · Multiplayer · Progress is saved automatically on the server
       </p>
     </div>
     <div class="specs">
-      <div class="spec"><b>운영체제</b>Windows 10 / 11 (64-bit)</div>
-      <div class="spec"><b>그래픽</b>Vulkan 또는 DirectX 12 지원 GPU</div>
-      <div class="spec"><b>메모리</b>8 GB RAM 권장</div>
-      <div class="spec"><b>저장 공간</b>약 2 GB</div>
+      <div class="spec"><b>OS</b>Windows 10 / 11 (64-bit)</div>
+      <div class="spec"><b>Graphics</b>GPU with Vulkan or DirectX 12</div>
+      <div class="spec"><b>Memory</b>8 GB RAM recommended</div>
+      <div class="spec"><b>Storage</b>About 2 GB</div>
     </div>
   </div>
 </section>
 
 <footer>
   <div class="links">
-    <a href="https://github.com/dogjung86-cloud/VoxWorld" target="_blank" rel="noopener">소스 코드</a>
-    <a href="https://github.com/dogjung86-cloud/VoxWorld/releases" target="_blank" rel="noopener">모든 릴리스</a>
-    <a href="https://www.gnu.org/licenses/gpl-3.0.html" target="_blank" rel="noopener">GPLv3 라이선스</a>
+    <a href="https://github.com/dogjung86-cloud/VoxWorld" target="_blank" rel="noopener">Source Code</a>
+    <a href="https://github.com/dogjung86-cloud/VoxWorld/releases" target="_blank" rel="noopener">All Releases</a>
+    <a href="https://www.gnu.org/licenses/gpl-3.0.html" target="_blank" rel="noopener">GPLv3 License</a>
   </div>
-  <p>Vox World는 오픈소스 게임 <a href="https://veloren.net" target="_blank" rel="noopener">Veloren</a>을 기반으로 합니다.<br>
-  게임 본체와 아트는 GPLv3 / CC 라이선스를 따릅니다. © 2026 Vox World</p>
+  <p>Vox World is based on the open-source game <a href="https://veloren.net" target="_blank" rel="noopener">Veloren</a>.<br>
+  Game code and art are licensed under GPLv3 / CC licenses. © 2026 Vox World</p>
 </footer>
 
 <script>
@@ -348,7 +341,7 @@ function copyAddr() {
   navigator.clipboard.writeText(addr).then(() => {
     const btn = document.querySelector(".copy-btn");
     const old = btn.textContent;
-    btn.textContent = "복사됨!";
+    btn.textContent = "Copied!";
     setTimeout(() => { btn.textContent = old; }, 1500);
   });
 }
