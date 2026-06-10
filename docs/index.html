@@ -53,13 +53,18 @@ nav {
   font-size: 19px; letter-spacing: 1.5px; color: #fff;
 }
 .brand span { color: var(--accent); }
-.nav-links { display: flex; gap: 22px; margin-left: auto; font-size: 14.5px; }
+.nav-links { display: flex; gap: 22px; margin-left: auto; font-size: 14.5px; align-items: center; }
 .nav-links a { color: var(--muted); transition: color .15s; }
 .nav-links a:hover { color: #fff; }
+.nav-links a.nav-dl {
+  color: #06121f; background: var(--accent);
+  padding: 8px 16px; border-radius: 8px; font-weight: 700;
+}
+.nav-links a.nav-dl:hover { background: #8dd0ff; }
 
 /* ── Hero ────────────────────────────── */
 header {
-  position: relative; min-height: 94vh;
+  position: relative; min-height: 96vh;
   display: flex; align-items: center; justify-content: center;
   text-align: center; overflow: hidden;
 }
@@ -75,7 +80,7 @@ header {
 }
 .hero-content { position: relative; z-index: 1; padding: 110px 24px 70px; }
 .hero-logo {
-  width: min(420px, 78vw);
+  width: min(400px, 76vw);
   filter: drop-shadow(0 10px 34px rgba(0,0,0,.55));
 }
 .tagline {
@@ -84,11 +89,15 @@ header {
   text-shadow: 0 2px 14px rgba(0,0,0,.75);
   margin-top: 22px;
 }
+.hero-sub {
+  margin-top: 10px; font-size: 14.5px; color: #c6d4e4;
+  text-shadow: 0 1px 8px rgba(0,0,0,.85);
+}
 .hero-cta { margin-top: 34px; display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
 .btn {
   display: inline-flex; align-items: center; gap: 10px;
-  padding: 17px 34px; border-radius: 10px;
-  font-size: 17.5px; font-weight: 700;
+  padding: 16px 32px; border-radius: 10px;
+  font-size: 16.5px; font-weight: 700;
   transition: transform .12s, box-shadow .12s, background .12s;
 }
 .btn:hover { transform: translateY(-2px); }
@@ -98,7 +107,12 @@ header {
   box-shadow: 0 6px 24px rgba(111, 195, 255, .35);
 }
 .btn-primary:hover { box-shadow: 0 10px 30px rgba(111, 195, 255, .5); }
-.hero-note { margin-top: 18px; font-size: 13.5px; color: #bcc9da; text-shadow: 0 1px 8px rgba(0,0,0,.85); }
+.btn-ghost {
+  background: rgba(13, 18, 26, .6);
+  border: 1px solid rgba(141, 160, 184, .5);
+  color: #fff;
+}
+.btn-ghost:hover { background: rgba(23, 31, 44, .85); border-color: var(--accent); }
 
 /* ── Sections ────────────────────────── */
 section { padding: 92px 0; }
@@ -107,7 +121,25 @@ section { padding: 92px 0; }
   font-size: clamp(28px, 4.5vw, 38px);
   letter-spacing: .5px; color: #fff; text-align: center;
 }
-.section-sub { text-align: center; color: var(--muted); margin-top: 10px; font-size: 15.5px; max-width: 640px; margin-left: auto; margin-right: auto; }
+.section-sub { text-align: center; color: var(--muted); margin-top: 10px; font-size: 15.5px; max-width: 660px; margin-left: auto; margin-right: auto; }
+
+/* about */
+#about { padding-bottom: 60px; }
+.about-lead {
+  max-width: 760px; margin: 0 auto; text-align: center;
+  font-size: clamp(16px, 2vw, 18.5px); color: #cfdcec;
+}
+.about-lead b { color: #fff; }
+.about-stats {
+  margin-top: 44px;
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px;
+}
+.stat {
+  background: var(--panel); border: 1px solid var(--line);
+  border-radius: 14px; padding: 22px; text-align: center;
+}
+.stat .big { font-size: 26px; font-weight: 900; color: var(--accent); }
+.stat .small { font-size: 13.5px; color: var(--muted); margin-top: 4px; }
 
 /* features */
 .features {
@@ -124,13 +156,14 @@ section { padding: 92px 0; }
 .feature p { font-size: 14.5px; color: var(--muted); }
 
 /* gallery */
+#shots { background: var(--bg-soft); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
 .gallery {
   margin-top: 52px;
   display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 14px;
 }
 .shot { position: relative; border-radius: 12px; overflow: hidden; border: 1px solid var(--line); }
 .shot img {
-  width: 100%; height: 250px; object-fit: cover; display: block;
+  width: 100%; height: 240px; object-fit: cover; display: block;
   transition: transform .25s;
 }
 .shot:hover img { transform: scale(1.035); }
@@ -141,12 +174,23 @@ section { padding: 92px 0; }
   font-size: 13.5px; color: #dfe9f5; font-weight: 500;
 }
 
-/* steps */
-#start { background: var(--bg-soft); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
-.steps { margin-top: 48px; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px; }
+/* download */
+#download .dl-card {
+  margin-top: 48px;
+  background: linear-gradient(180deg, #16202e 0%, #121a26 100%);
+  border: 1px solid #2b3a4f;
+  border-radius: 18px; padding: 44px 36px;
+  text-align: center;
+}
+#download .dl-card h3 { font-size: 24px; color: #fff; }
+#download .dl-card p.dl-lead { color: var(--muted); margin-top: 10px; font-size: 15.5px; max-width: 560px; margin-left: auto; margin-right: auto; }
+#download .dl-cta { margin-top: 26px; }
+#download .dl-note { margin-top: 14px; font-size: 13px; color: var(--muted); }
+.steps { margin-top: 40px; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px; }
 .step {
   background: var(--panel); border: 1px solid var(--line);
   border-radius: 14px; padding: 28px 24px; position: relative;
+  text-align: left;
 }
 .step-num {
   width: 38px; height: 38px; border-radius: 10px;
@@ -161,6 +205,7 @@ section { padding: 92px 0; }
   background: rgba(255, 196, 107, .07);
   border: 1px solid rgba(255, 196, 107, .25);
   border-radius: 12px; font-size: 14px; color: #e8d5b5;
+  text-align: left;
 }
 .smartscreen b { color: var(--amber); }
 
@@ -206,7 +251,7 @@ footer {
 footer .links { display: flex; gap: 22px; justify-content: center; margin-bottom: 14px; font-size: 14px; }
 
 @media (max-width: 640px) {
-  .nav-links { display: none; }
+  .nav-links a:not(.nav-dl) { display: none; }
   section { padding: 64px 0; }
 }
 </style>
@@ -217,10 +262,11 @@ footer .links { display: flex; gap: 22px; justify-content: center; margin-bottom
   <div class="nav-inner">
     <div class="brand">VOX <span>WORLD</span></div>
     <div class="nav-links">
-      <a href="#features">Features</a>
-      <a href="#start">Getting Started</a>
+      <a href="#about">About</a>
+      <a href="#shots">Screenshots</a>
       <a href="#server">Server</a>
       <a href="https://github.com/dogjung86-cloud/VoxWorld" target="_blank" rel="noopener">GitHub</a>
+      <a class="nav-dl" href="#download">Download</a>
     </div>
   </div>
 </nav>
@@ -231,19 +277,29 @@ footer .links { display: flex; gap: 22px; justify-content: center; margin-bottom
   <div class="hero-content">
     <img class="hero-logo" src="img/logo.png" alt="Vox World">
     <p class="tagline">A multiplayer voxel fantasy RPG set in a vast, living world.</p>
+    <p class="hero-sub">Free · Open Source (GPLv3) · No account required</p>
     <div class="hero-cta">
-      <a class="btn btn-primary" href="https://github.com/dogjung86-cloud/VoxWorld/releases/latest/download/VoxWorldLauncher.exe">
-        ⬇ Download Launcher <small style="font-weight:500">(Windows)</small>
-      </a>
+      <a class="btn btn-ghost" href="#about">Discover the world ↓</a>
     </div>
-    <p class="hero-note">Free · Open Source (GPLv3) · No account required</p>
   </div>
 </header>
 
-<section id="features">
+<section id="about">
   <div class="wrap">
-    <h2 class="section-title">One world. Endless adventure.</h2>
-    <p class="section-sub">A procedurally generated continent that keeps living even while you're away — towns trade, NPCs travel, and the world goes on.</p>
+    <h2 class="section-title">What is Vox World?</h2>
+    <p class="about-lead" style="margin-top: 26px;">
+      Vox World drops you into a <b>procedurally generated fantasy continent</b> that keeps living
+      even while you're away — towns trade, caravans travel, and creatures roam.
+      Hunt towering bosses in deep dungeons, gather and craft your way to better gear,
+      ride airships between far-flung settlements, and do it all <b>together with friends</b>
+      on the official server.
+    </p>
+    <div class="about-stats">
+      <div class="stat"><div class="big">100%</div><div class="small">Free &amp; open source — no paywalls, no ads</div></div>
+      <div class="stat"><div class="big">1 World</div><div class="small">Persistent official server — progress always saved</div></div>
+      <div class="stat"><div class="big">100</div><div class="small">Adventurers can play together at once</div></div>
+      <div class="stat"><div class="big">∞</div><div class="small">Biomes, dungeons &amp; stories to discover</div></div>
+    </div>
     <div class="features">
       <div class="feature">
         <div class="icon">🗺️</div>
@@ -266,34 +322,53 @@ footer .links { display: flex; gap: 22px; justify-content: center; margin-bottom
         <p>Hunt, chat, and adventure with friends on the official server. All progress is saved server-side.</p>
       </div>
     </div>
+  </div>
+</section>
+
+<section id="shots">
+  <div class="wrap">
+    <h2 class="section-title">Straight from the world</h2>
+    <p class="section-sub">Every shot below is real in-game footage.</p>
     <div class="gallery">
-      <div class="shot"><img src="img/combat.jpg" alt="Boss fight in a lava dungeon" loading="lazy"><div class="cap">Face down dungeon bosses</div></div>
+      <div class="shot"><img src="img/boss.jpg" alt="A giant winged boss looming over a player" loading="lazy"><div class="cap">Stand your ground against colossal bosses</div></div>
+      <div class="shot"><img src="img/combat.jpg" alt="Boss fight in a lava dungeon" loading="lazy"><div class="cap">Clear lava-lit dungeons for rare loot</div></div>
+      <div class="shot"><img src="img/coop.jpg" alt="Two armored adventurers in a glowing cavern" loading="lazy"><div class="cap">Gear up and delve with your party</div></div>
+      <div class="shot"><img src="img/airship.jpg" alt="Airships flying over a crimson valley" loading="lazy"><div class="cap">Ride airships across the continent</div></div>
       <div class="shot"><img src="img/valley.jpg" alt="Snowy mountain valley" loading="lazy"><div class="cap">Cross snowbound mountain valleys</div></div>
       <div class="shot"><img src="img/world.jpg" alt="Savannah fortress and lake" loading="lazy"><div class="cap">Discover fortresses on the savannah</div></div>
-      <div class="shot"><img src="img/night.jpg" alt="Winter lake at night" loading="lazy"><div class="cap">Wander starlit winter shores</div></div>
     </div>
   </div>
 </section>
 
-<section id="start">
+<section id="download">
   <div class="wrap">
-    <h2 class="section-title">Playing in 3 minutes</h2>
-    <p class="section-sub">The launcher handles installation and updates for you.</p>
+    <h2 class="section-title">Ready to start your adventure?</h2>
+    <p class="section-sub">Vox World runs through its own launcher — one small download that installs the game and keeps it up to date.</p>
+    <div class="dl-card">
+      <h3>Get the Vox World Launcher</h3>
+      <p class="dl-lead">Download the launcher, click <b>Install</b>, then <b>Play</b> — it connects you to the official server automatically. That's all there is to it.</p>
+      <div class="dl-cta">
+        <a class="btn btn-primary" href="https://github.com/dogjung86-cloud/VoxWorld/releases/latest/download/VoxWorldLauncher.exe">
+          ⬇ Download Launcher <small style="font-weight:500">(Windows · 6 MB)</small>
+        </a>
+      </div>
+      <p class="dl-note">The launcher downloads the full game (~370 MB) on first install.</p>
+    </div>
     <div class="steps">
       <div class="step">
         <div class="step-num">1</div>
-        <h3>Download the launcher</h3>
-        <p>Grab <a href="https://github.com/dogjung86-cloud/VoxWorld/releases/latest/download/VoxWorldLauncher.exe">VoxWorldLauncher.exe</a> and run it. No installer, it just opens.</p>
+        <h3>Run the launcher</h3>
+        <p>No installer needed — <a href="https://github.com/dogjung86-cloud/VoxWorld/releases/latest/download/VoxWorldLauncher.exe">VoxWorldLauncher.exe</a> just opens.</p>
       </div>
       <div class="step">
         <div class="step-num">2</div>
         <h3>Click Install</h3>
-        <p>The launcher downloads the latest version of the game automatically — and keeps it up to date from then on.</p>
+        <p>The launcher fetches the latest version of the game automatically — and keeps it updated from then on.</p>
       </div>
       <div class="step">
         <div class="step-num">3</div>
         <h3>Press Play</h3>
-        <p>The game starts with the official server address pre-filled. Pick a name, create your character, and jump in.</p>
+        <p>The game opens with the official server pre-filled. Pick a name, create your character, and jump in.</p>
       </div>
     </div>
     <div class="smartscreen">
