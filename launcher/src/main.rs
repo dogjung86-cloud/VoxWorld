@@ -122,7 +122,12 @@ fn check_thread(shared: Arc<Mutex<Shared>>, ctx: eframe::egui::Context) {
             .call()
             .map_err(|e| e.to_string())
             .and_then(|r| r.into_string().map_err(|e| e.to_string()))
-            .and_then(|body| serde_json::from_str::<Manifest>(&body).map_err(|e| e.to_string()));
+            .and_then(|body| {
+                // Tolerate a UTF-8 BOM in case the manifest was written by a
+                // Windows tool; serde_json rejects it otherwise.
+                let body = body.trim_start_matches('\u{feff}');
+                serde_json::from_str::<Manifest>(body).map_err(|e| e.to_string())
+            });
 
         let mut s = shared.lock().unwrap();
         match result {
